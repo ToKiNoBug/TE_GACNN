@@ -7,11 +7,11 @@ class Sequence
 {
 public:
     Sequence();
+    ~Sequence();
     std::vector<Input> val;
     bool isNormal;
     bool load(const std::string &);
     void mapMinMax();
-
 
     static RawData min;
     static RawData max;

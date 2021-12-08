@@ -3,10 +3,13 @@
 
 //#define EIGEN_NO_DEBUG
 #include <Eigen/Dense>
+#include <iostream>
 #include <vector>
 #include <list>
 #include <string>
 #include <cmath>
+
+//#define logsig(x) 1.0/(1.0+(-(x)).array.exp())
 
 const int InputCount=52;
 typedef Eigen::Vector<double,InputCount> RawData;
@@ -23,5 +26,21 @@ typedef Eigen::Matrix<double,2,HiddenCount+1> Hid2Out;//V
 
 const int SampleLength=48;
 typedef std::pair<const Input*,bool> Sample;
+
+const OutLayer normalOut={1,0},abnormalOut={0,1};
+
+const double LearningRate=0.05;
+
+typedef std::vector<Sample> Batch;
+
+double randDouble();
+
+/*
+double randD();
+double randD() {
+    //[-1,1]
+    //return (double(std::rand()%0xFFF)/0xFFF-0.5)*2;
+}
+*/
 
 #endif // DEFINES_H

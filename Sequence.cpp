@@ -2,11 +2,16 @@
 #include <iostream>
 #include <fstream>
 
-RawData Sequence::min,Sequence::max;
+RawData Sequence::min;
+RawData Sequence::max;
 
 Sequence::Sequence()
 {
 val.clear();
+}
+
+Sequence::~Sequence() {
+
 }
 
 bool Sequence::load(const std::string & fileName) {
