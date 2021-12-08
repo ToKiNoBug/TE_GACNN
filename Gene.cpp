@@ -23,6 +23,13 @@ void Gene::initialize(double scale) {
 }
 
 void Gene::crossover(Gene * a, Gene * b, int idx) {
+    if(idx>=geneLength) {
+        std::cerr<<"Wrong crossover index "<<idx<<std::endl;
+        exit(1);
+        return;
+    }
+
+
     a->value.DNA.segment(idx,geneLength-idx).swap(
                 b->value.DNA.segment(idx,geneLength-idx));
     a->isCalculated=false;
@@ -31,7 +38,7 @@ void Gene::crossover(Gene * a, Gene * b, int idx) {
 
 void Gene::mutate(int idx) {
     double & cur=value.DNA(idx);
-    cur+=LearningRate*randDouble();
+    cur+=LearningRate*(2*randDouble()-1);
     if(cur>1) {
         cur=1;
     }
@@ -57,7 +64,7 @@ void Gene::calculateFitness(const Batch & batch) {
     isCalculated=true;
 }
 
-void test_Gene() {
+void test_network() {
     std::string path1="D:/Git/TE_GARNN/DataSet/Normal.data",
             path2="D:/Git/TE_GARNN/DataSet/Error01.data";
     Sequence s1,s2;
@@ -96,4 +103,34 @@ void test_Gene() {
     std::cout<<"network W=\n"<<g.value.network.W<<std::endl;
     std::cout<<"network V=\n"<<g.value.network.V<<std::endl;
 
+}
+
+void Gene::setUncalculated() {
+    isCalculated=false;
+}
+
+void test_Gene() {
+    Gene g1,g2;
+    g1.value.DNA.setZero();
+    g2.value.DNA.setOnes();
+
+    std::cout<<"g1=\n"<<g1.value.DNA.transpose()<<std::endl;
+    std::cout<<"g2=\n"<<g2.value.DNA.transpose()<<std::endl;
+
+    Gene::crossover(&g1,&g2,533);
+    std::cout<<"Crossover\n";
+
+    //std::cout<<"g1=\n"<<g1.value.DNA.transpose()<<std::endl;
+    //std::cout<<"g2=\n"<<g2.value.DNA.transpose()<<std::endl;
+
+    std::cout<<"g1.U=\n"<<g1.value.network.U<<std::endl;
+    std::cout<<"g2.U=\n"<<g2.value.network.U<<std::endl;
+
+
+    std::cout<<"g1.W=\n"<<g1.value.network.W<<std::endl;
+    std::cout<<"g2.W=\n"<<g2.value.network.W<<std::endl;
+
+
+    std::cout<<"g1.V=\n"<<g1.value.network.V<<std::endl;
+    std::cout<<"g2.V=\n"<<g2.value.network.V<<std::endl;
 }

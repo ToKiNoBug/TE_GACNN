@@ -32,15 +32,11 @@ const OutLayer normalOut={1,0},abnormalOut={0,1};
 const double LearningRate=0.05;
 
 typedef std::vector<Sample> Batch;
+const int SuggestedBatchSize=30;
+const int DataSetSize=2000;
+const double normalRatio=0.4;
 
 double randDouble();
 
-/*
-double randD();
-double randD() {
-    //[-1,1]
-    //return (double(std::rand()%0xFFF)/0xFFF-0.5)*2;
-}
-*/
 
 #endif // DEFINES_H

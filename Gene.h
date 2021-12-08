@@ -24,7 +24,10 @@ public:
     void mutate(int);
 
     void calculateFitness(const Batch &);
+    void setUncalculated();
 };
+
+void test_Network();
 
 void test_Gene();
 #endif // GENE_H
