@@ -1,30 +1,30 @@
 #include "DataSetGenerator.h"
 
 const std::string normalDatas[]={
-    "D:/Git/TE_GARNN/DataSet/Normal.data"
+    "./DataSet/Normal.data"
 };
 
 const std::string abnormalDatas[]={
-    "D:/Git/TE_GARNN/DataSet/Error01.data",
-    "D:/Git/TE_GARNN/DataSet/Error02.data",
-    "D:/Git/TE_GARNN/DataSet/Error03.data",
-    "D:/Git/TE_GARNN/DataSet/Error04.data",
-    "D:/Git/TE_GARNN/DataSet/Error05.data",
-    "D:/Git/TE_GARNN/DataSet/Error06.data",
-    "D:/Git/TE_GARNN/DataSet/Error07.data",
-    "D:/Git/TE_GARNN/DataSet/Error08.data",
-    "D:/Git/TE_GARNN/DataSet/Error09.data",
-    "D:/Git/TE_GARNN/DataSet/Error10.data",
-    "D:/Git/TE_GARNN/DataSet/Error11.data",
-    "D:/Git/TE_GARNN/DataSet/Error12.data",
-    "D:/Git/TE_GARNN/DataSet/Error13.data",
-    "D:/Git/TE_GARNN/DataSet/Error14.data",
-    "D:/Git/TE_GARNN/DataSet/Error15.data",
-    "D:/Git/TE_GARNN/DataSet/Error16.data",
-    "D:/Git/TE_GARNN/DataSet/Error17.data",
-    "D:/Git/TE_GARNN/DataSet/Error18.data",
-    "D:/Git/TE_GARNN/DataSet/Error19.data",
-    "D:/Git/TE_GARNN/DataSet/Error20.data",
+    "./DataSet/Error01.data",
+    "./DataSet/Error02.data",
+    "./DataSet/Error03.data",
+    "./DataSet/Error04.data",
+    "./DataSet/Error05.data",
+    "./DataSet/Error06.data",
+    "./DataSet/Error07.data",
+    "./DataSet/Error08.data",
+    "./DataSet/Error09.data",
+    "./DataSet/Error10.data",
+    "./DataSet/Error11.data",
+    "./DataSet/Error12.data",
+    "./DataSet/Error13.data",
+    "./DataSet/Error14.data",
+    "./DataSet/Error15.data",
+    "./DataSet/Error16.data",
+    "./DataSet/Error17.data",
+    "./DataSet/Error18.data",
+    "./DataSet/Error19.data",
+    "./DataSet/Error20.data",
 };
 
 std::list<Sequence> normalDataSource,abnormalDataSource;
@@ -54,7 +54,28 @@ void makeDataSet(std::vector<Batch> & dest) {
         abnormalDataSource.emplace_back(s);
     }
 
-    std::cout<<abnormalDataSource.size()<<std::endl;
+    //std::cout<<abnormalDataSource.size()<<std::endl;
+
+    normalDataSource.front().beginMinMax();
+    {
+        auto it=normalDataSource.begin();
+        it++;
+        while(it!=normalDataSource.end()) {
+            it->updateMinMax();
+        }
+        for(auto & i : abnormalDataSource) {
+            i.updateMinMax();
+        }
+    }
+
+    {
+        for(auto & i : normalDataSource) {
+            i.mapMinMax();
+        }
+        for(auto & i : abnormalDataSource) {
+            i.mapMinMax();
+        }
+    }
 
     std::vector<Sample> FullSample;
     FullSample.clear();

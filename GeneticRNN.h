@@ -24,6 +24,7 @@ public:
 
     const Gene * elite() const;
     AlgoStatue currentStatue() const;
+    void saveTrainingRecord(const std::string &) const;
 
     static const int reportRate=20;
 
@@ -37,6 +38,8 @@ private:
     int epochNum;
 
     AlgoStatue statue;
+
+    std::vector<double> record;
 
     void initialize();
 

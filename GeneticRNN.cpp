@@ -1,5 +1,5 @@
 #include "GeneticRNN.h"
-
+#include <fstream>
 GeneticRNN::GeneticRNN(){
     statue=AlgoStatue::none;
 }
@@ -33,6 +33,8 @@ void GeneticRNN::initialize() {
     currentBatchIdx=0;
     epochNum=0;
     statue=AlgoStatue::initialized;
+    record.clear();
+    record.reserve(maxGeneration);
 
     std::cerr<<"population initialized\n";
     std::cerr<<"GA-RNN algorithm initialized"<<std::endl;
@@ -122,6 +124,9 @@ void GeneticRNN::run() {
     statue=AlgoStatue::running;
 
     while (true) {
+
+        calculateAll();
+
         if(generation>maxGeneration) {
             std::cerr<<"finished by maxGeneration limit\n";
             break;
@@ -130,8 +135,11 @@ void GeneticRNN::run() {
             std::cerr<<"finished by maxFailTimes limit\n";
         }
 
-        calculateAll();
         select();
+        record.emplace_back(population[eliteIdx].fitness);
+        std::cerr<<"generation "<<generation<<"\n";
+        std::cerr<<"best fitness="<<population[eliteIdx].fitness<<std::endl;
+
         crossover();
         mutate();
 
@@ -142,8 +150,22 @@ void GeneticRNN::run() {
             currentBatchIdx=currentBatchIdx%dataSet.size();
         }
 
-        std::cerr<<"generation "<<generation<<"\n";
-        std::cerr<<"best fitness="<<population[eliteIdx].fitness<<std::endl;
 
     }
+
+    std::cerr<<"Trainning finished"<<std::endl;
+    statue=AlgoStatue::finished;
+}
+
+void GeneticRNN::saveTrainingRecord(const std::string & fileName) const {
+    std::fstream file;
+    file.open(fileName,std::ios::out);
+
+    file<<"Fitness=[\n";
+    for(auto i : record) {
+        file<<i<<";\n";
+    }
+    file<<"];\n";
+
+    file.close();
 }
