@@ -36,6 +36,21 @@ const int SuggestedBatchSize=30;
 const int DataSetSize=2000;
 const double normalRatio=0.4;
 
+
+const int populationSize=50;
+//种群规模
+const double crossoverProb=0.8;
+//交叉概率
+const double mutateProb=0.05;
+//变异概率
+const int maxGeneration=300;
+//最大允许代数
+const int maxFailTimes=50;
+//连续50代没有更优的个体产生，则结束
+
+const double iniWeightScale=0.5;
+//权值初始化范围-0.5~0.5
+
 double randDouble();
 
 

@@ -2,10 +2,8 @@
 
 #include <QApplication>
 
-#include "Sequence.h"
 #include "Gene.h"
-
-#include "DataSetGenerator.h"
+#include "GeneticRNN.h"
 
 #include <ctime>
 #include <cmath>
@@ -14,33 +12,19 @@ int main(int argc, char *argv[])
 {
     std::srand(std::time(nullptr));
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    //QApplication a(argc, argv);
+    //MainWindow w;
+    //w.show();
+    /*
+    GeneticRNN * algorithm = new GeneticRNN(nullptr);
 
-    std::vector<Batch> dest;
-    makeDataSet(dest);
+    algorithm->run();
 
-    Gene g;
-    g.initialize(0.5);
+    delete algorithm;
+    */
+    //test_Network();
+    //test_Gene();
 
-    std::vector<double> fitnesses;
-    fitnesses.clear();
-    fitnesses.reserve(dest.size());
-
-    for(const Batch & i : dest) {
-        g.setUncalculated();
-        g.calculateFitness(i);
-        fitnesses.emplace_back(g.fitness);
-    }
-    double mean=0;
-    std::cout<<"Fitnesses on all batchs = [";
-    for(auto i : fitnesses) {
-        mean+=i;
-        std::cout<<i<<", ";
-    }
-    std::cout<<"]"<<std::endl;
-    std::cout<<"mean Fitness="<<mean/fitnesses.size()<<std::endl;
-
-    return a.exec();
+    //return a.exec();
+    return 0;
 }

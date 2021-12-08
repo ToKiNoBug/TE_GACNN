@@ -15,6 +15,8 @@ public:
 
     double run(Sample) const;
 
+    Eigen::Map<Eigen::ArrayXd> toMap() const;
+
     //static const int geneLength;
 };
 

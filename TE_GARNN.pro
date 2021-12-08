@@ -4,7 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 INCLUDEPATH += D:/CppLibs/eigen-3.4.0
 
-CONFIG += c++11
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -13,6 +13,7 @@ CONFIG += c++11
 SOURCES += \
     DataSetGenerator.cpp \
     Gene.cpp \
+    GeneticRNN.cpp \
     RNN.cpp \
     Sequence.cpp \
     defines.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     DataSetGenerator.h \
     Gene.h \
+    GeneticRNN.h \
     MainWindow.h \
     RNN.h \
     Sequence.h \

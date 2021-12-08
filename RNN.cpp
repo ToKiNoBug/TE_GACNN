@@ -1,12 +1,15 @@
 #include "RNN.h"
 
 RNN::RNN() {
-
+U.setZero();
+W.setZero();
+V.setZero();
 }
 
 RNN::~RNN() {
 
 }
+
 
 double RNN::run(Sample s) const {
 
@@ -26,4 +29,8 @@ double RNN::run(Sample s) const {
     } else {
         return (out-abnormalOut).squaredNorm();
     }
+}
+
+Eigen::Map<Eigen::ArrayXd> RNN::toMap() const {
+    return Eigen::Map<Eigen::ArrayXd>((double*)this,geneLength);
 }
