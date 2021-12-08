@@ -1,5 +1,5 @@
 #include "RNN.h"
-
+#include <fstream>
 RNN::RNN() {
 U.setZero();
 W.setZero();
@@ -33,4 +33,19 @@ double RNN::run(Sample s) const {
 
 Eigen::Map<Eigen::ArrayXd> RNN::toMap() const {
     return Eigen::Map<Eigen::ArrayXd>((double*)this,geneLength);
+}
+
+void RNN::writeToFile(const std::string & fileName) const {
+    std::fstream file;
+    file.open(fileName,std::ios::out);
+
+    file<<"U=";
+    writeMatrixAsMatlab(U,file);
+    file<<"\n\nW=";
+    writeMatrixAsMatlab(W,file);
+    file<<"\n\nV=";
+    writeMatrixAsMatlab(V,file);
+
+    file<<"\n\n";
+    file.close();
 }

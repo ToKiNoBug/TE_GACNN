@@ -1,17 +1,17 @@
 #ifndef GENETICRNN_H
 #define GENETICRNN_H
 
-#include <QObject>
+//#include <QObject>
 
 #include "defines.h"
 #include "DataSetGenerator.h"
 #include "Gene.h"
 
-class GeneticRNN : public QObject
+class GeneticRNN //: public QObject
 {
-    Q_OBJECT
+    //Q_OBJECT
 public:
-    explicit GeneticRNN(QObject *parent = nullptr);
+    explicit GeneticRNN();
     ~GeneticRNN();
     void run();
 
@@ -25,7 +25,7 @@ public:
     const Gene * elite() const;
     AlgoStatue currentStatue() const;
 
-signals:
+    static const int reportRate=20;
 
 private:
     std::vector<Gene> population;

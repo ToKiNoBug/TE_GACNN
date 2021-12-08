@@ -17,6 +17,8 @@ public:
 
     Eigen::Map<Eigen::ArrayXd> toMap() const;
 
+    void writeToFile(const std::string &) const;
+
     //static const int geneLength;
 };
 

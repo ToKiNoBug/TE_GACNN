@@ -32,7 +32,7 @@ const OutLayer normalOut={1,0},abnormalOut={0,1};
 const double LearningRate=0.05;
 
 typedef std::vector<Sample> Batch;
-const int SuggestedBatchSize=30;
+const int SuggestedBatchSize=50;
 const int DataSetSize=2000;
 const double normalRatio=0.4;
 
@@ -53,5 +53,6 @@ const double iniWeightScale=0.5;
 
 double randDouble();
 
+void writeMatrixAsMatlab(const Eigen::MatrixXd,std::fstream&);
 
 #endif // DEFINES_H

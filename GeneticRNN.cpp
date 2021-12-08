@@ -1,7 +1,6 @@
 #include "GeneticRNN.h"
 
-GeneticRNN::GeneticRNN(QObject *parent) :
-    QObject(parent) {
+GeneticRNN::GeneticRNN(){
     statue=AlgoStatue::none;
 }
 
@@ -71,7 +70,7 @@ void GeneticRNN::select() {
         failTimes=0;
         eliteIdx=bestIdx;
     }
-    std::cerr<<"selection finished"<<std::endl;
+    //std::cerr<<"selection finished"<<std::endl;
 }
 
 void GeneticRNN::crossover() {
@@ -102,7 +101,7 @@ void GeneticRNN::crossover() {
                 &population[bIdx],crossoverIdx);
     }
 
-    std::cerr<<"crossover finished"<<std::endl;
+    //std::cerr<<"crossover finished"<<std::endl;
 }
 
 void GeneticRNN::mutate() {
@@ -115,7 +114,7 @@ void GeneticRNN::mutate() {
             population[idx].mutate(mutateIdx);
         }
     }
-    std::cerr<<"mutation finished"<<std::endl;
+    //std::cerr<<"mutation finished"<<std::endl;
 }
 
 void GeneticRNN::run() {
@@ -143,7 +142,8 @@ void GeneticRNN::run() {
             currentBatchIdx=currentBatchIdx%dataSet.size();
         }
 
-        std::cerr<<"generation "<<generation<<std::endl;
+        std::cerr<<"generation "<<generation<<"\n";
         std::cerr<<"best fitness="<<population[eliteIdx].fitness<<std::endl;
+
     }
 }
