@@ -41,8 +41,15 @@ void GeneticRNN::initialize() {
 }
 
 void GeneticRNN::calculateAll() {
+    static int prevBatch=-1;
+    bool isBatchSwitched=false;
+    if(prevBatch!=currentBatchIdx) {
+        prevBatch=currentBatchIdx;
+        isBatchSwitched=true;
+    }
     for(auto & i : population) {
-        i.setUncalculated();
+        if(isBatchSwitched)
+            i.setUncalculated();
         i.calculateFitness(dataSet[currentBatchIdx]);
     }
 }
@@ -133,6 +140,7 @@ void GeneticRNN::run() {
         }
         if(failTimes>maxFailTimes) {
             std::cerr<<"finished by maxFailTimes limit\n";
+            break;
         }
 
         select();
@@ -144,7 +152,9 @@ void GeneticRNN::run() {
         mutate();
 
         generation++;
-        currentBatchIdx++;
+        if(generation%batch_per_generation==0) {
+            currentBatchIdx++;
+        }
         if((unsigned)currentBatchIdx>=dataSet.size()) {
             epochNum++;
             currentBatchIdx=currentBatchIdx%dataSet.size();
@@ -168,4 +178,8 @@ void GeneticRNN::saveTrainingRecord(const std::string & fileName) const {
     file<<"];\n";
 
     file.close();
+}
+
+const std::vector<Batch> & GeneticRNN::getDataSet() const {
+    return dataSet;
 }

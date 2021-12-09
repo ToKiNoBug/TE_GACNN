@@ -26,7 +26,10 @@ public:
     AlgoStatue currentStatue() const;
     void saveTrainingRecord(const std::string &) const;
 
+    const std::vector<Batch> & getDataSet() const;
+
     static const int reportRate=20;
+    static const int batch_per_generation=4;
 
 private:
     std::vector<Gene> population;

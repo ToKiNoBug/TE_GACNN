@@ -14,6 +14,7 @@ public:
     Hid2Out V;
 
     double run(Sample) const;
+    bool run_sort(Sample) const;
 
     Eigen::Map<Eigen::ArrayXd> toMap() const;
 

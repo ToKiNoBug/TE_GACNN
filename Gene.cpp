@@ -81,12 +81,20 @@ void Gene::calculateFitness(const Batch & batch) {
     if(isCalculated) {
         return;
     }
+#ifdef Fitness_By_Accuracy
+    int accuracyTimes=0;
+    for(auto it : batch) {
+        accuracyTimes+=network.run_sort(it);
+    }
+    fitness=double(100*accuracyTimes)/batch.size();
+#else
     double error=0;
     for(auto it : batch) {
         error+=network.run(it);
     }
     error/=batch.size();
     fitness=1/(1e-8+error);
+#endif
     isCalculated=true;
 }
 

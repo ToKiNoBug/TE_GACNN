@@ -9,6 +9,8 @@
 #include <string>
 #include <cmath>
 
+//#define Fitness_By_Accuracy
+
 //#define logsig(x) 1.0/(1.0+(-(x)).array.exp())
 
 const int InputCount=52;
@@ -27,7 +29,7 @@ typedef Eigen::Matrix<double,2,HiddenCount+1> Hid2Out;//V
 const int SampleLength=48;
 typedef std::pair<const Input*,bool> Sample;
 
-const OutLayer normalOut={1,0},abnormalOut={0,1};
+const OutLayer normalOut={0.8,0.2},abnormalOut={0.2,0.8};
 
 const double LearningRate=0.05;
 
@@ -48,7 +50,7 @@ const int maxGeneration=3000;
 const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束
 
-const double iniWeightScale=0.5;
+const double iniWeightScale=0.3;
 //权值初始化范围-0.5~0.5
 
 double randDouble();
