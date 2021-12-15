@@ -13,8 +13,10 @@ public:
     Hid2Hid W;
     Hid2Out V;
 
-    double run(Sample) const;
-    bool run_sort(Sample) const;
+    double run(const Sample &) const;
+    bool run_sort(const Sample &) const;
+
+    void run_output(Sample,OutLayer&) const;
 
     Eigen::Map<Eigen::ArrayXd> toMap() const;
 

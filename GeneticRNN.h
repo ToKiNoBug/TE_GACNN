@@ -29,7 +29,7 @@ public:
     const std::vector<Batch> & getDataSet() const;
 
     static const int reportRate=20;
-    static const int batch_per_generation=4;
+    static const int generation_per_batch=10;
 
 private:
     std::vector<Gene> population;

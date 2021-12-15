@@ -33,5 +33,7 @@ public:
 
 void test_Network();
 
+void test_Network2();
+
 void test_Gene();
 #endif // GENE_H

@@ -22,21 +22,8 @@ int main(int argc, char *argv[])
 
     for(const Batch & i : algorithm.getDataSet()) {
         for(const Sample & j : i) {
-            bool isRight=result.run_sort(j);
-            if(j.second) {
-                if(isRight) {
-                    accuracyMat(0,0)++;
-                } else {
-                    accuracyMat(1,0)++;
-                }
-            } else {
-                if(isRight) {
-                    accuracyMat(1,1)++;
-                }
-                else {
-                    accuracyMat(0,1)++;
-                }
-            }
+            bool RNN_res=result.run_sort(j);
+                accuracyMat(!RNN_res,!j.second)++;
         }
     }
     accuracyMat/=accuracyMat.sum();

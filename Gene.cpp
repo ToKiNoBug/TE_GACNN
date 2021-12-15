@@ -89,10 +89,10 @@ void Gene::calculateFitness(const Batch & batch) {
     fitness=double(100*accuracyTimes)/batch.size();
 #else
     double error=0;
-    for(auto it : batch) {
-        error+=network.run(it);
+    for(const auto & it : batch) {
+        error=std::max(network.run(it),error);
     }
-    error/=batch.size();
+    //error/=batch.size();
     fitness=1/(1e-8+error);
 #endif
     isCalculated=true;
@@ -177,4 +177,41 @@ void test_Gene() {
 
     g1.mutate(2);
     std::cout<<"g1.U=\n"<<g1.network.U<<std::endl;
+}
+
+void test_Network2() {
+    Gene g;
+    g.initialize(0.5);
+    Sequence s;
+    s.isNormal=true;
+    if(!s.load("D:/Git/TE_GARNN/DataSet/Normal.data")) {
+        std::cerr<<"Failed to load sequence data"<<std::endl;
+        return;
+    }
+
+    s.beginMinMax();
+    s.mapMinMax();
+
+    Batch b;
+    b.clear();
+    b.reserve(3);
+
+    b.emplace_back(std::make_pair(s.val.data(),s.isNormal));
+    b.emplace_back(std::make_pair(s.val.data()+10,s.isNormal));
+    b.emplace_back(std::make_pair(s.val.data()+20,s.isNormal));
+
+    std::vector<OutLayer> outputs;
+    outputs.clear();
+    outputs.reserve(b.capacity());
+
+    for(const auto & sam : b) {
+        OutLayer o;
+        g.network.run_output(sam,o);
+        outputs.emplace_back(o);
+    }
+
+    for(const auto & o : outputs) {
+        std::cout<<"Output 1 : =\n"<<o<<std::endl;
+    }
+
 }

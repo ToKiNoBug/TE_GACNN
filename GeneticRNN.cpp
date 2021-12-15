@@ -152,7 +152,7 @@ void GeneticRNN::run() {
         mutate();
 
         generation++;
-        if(generation%batch_per_generation==0) {
+        if(generation%generation_per_batch==0) {
             currentBatchIdx++;
         }
         if((unsigned)currentBatchIdx>=dataSet.size()) {

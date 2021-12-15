@@ -45,7 +45,7 @@ const double crossoverProb=0.8;
 //交叉概率
 const double mutateProb=0.05;
 //变异概率
-const int maxGeneration=3000;
+const int maxGeneration=2999;
 //最大允许代数
 const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束
