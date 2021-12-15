@@ -3,6 +3,8 @@
 
 //#include <QObject>
 
+#include <ctime>
+
 #include "defines.h"
 #include "DataSetGenerator.h"
 #include "Gene.h"

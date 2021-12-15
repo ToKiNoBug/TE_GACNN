@@ -2,6 +2,7 @@
 #define GENE_H
 #include "defines.h"
 #include "RNN.h"
+#include "Batch.h"
 /*
 union ParameterPack {
 public:

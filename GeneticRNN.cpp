@@ -130,6 +130,7 @@ void GeneticRNN::run() {
     initialize();
     statue=AlgoStatue::running;
 
+    clock_t curTime=std::clock();
     while (true) {
 
         calculateAll();
@@ -145,8 +146,8 @@ void GeneticRNN::run() {
 
         select();
         record.emplace_back(population[eliteIdx].fitness);
-        std::cerr<<"generation "<<generation<<"\n";
-        std::cerr<<"best fitness="<<population[eliteIdx].fitness<<std::endl;
+        std::cerr<<"generation "<<generation;
+        std::cerr<<" , best fitness="<<population[eliteIdx].fitness<<std::endl;
 
         crossover();
         mutate();
@@ -154,14 +155,19 @@ void GeneticRNN::run() {
         generation++;
         if(generation%generation_per_batch==0) {
             currentBatchIdx++;
-        }
-        if((unsigned)currentBatchIdx>=dataSet.size()) {
-            epochNum++;
-            currentBatchIdx=currentBatchIdx%dataSet.size();
+            if((unsigned)currentBatchIdx>=dataSet.size()) {
+                epochNum++;
+                currentBatchIdx=currentBatchIdx%dataSet.size();
+            }
+            std::cerr<<"Batch "<<currentBatchIdx<<std::endl;
         }
 
 
     }
+
+
+    int timeUsed=(std::clock()-curTime)/CLOCKS_PER_SEC;
+    std::cout<<"Time spend : "<<timeUsed<<"s"<<std::endl;
 
     std::cerr<<"Trainning finished"<<std::endl;
     statue=AlgoStatue::finished;

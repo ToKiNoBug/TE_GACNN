@@ -31,9 +31,9 @@ typedef std::pair<const Input*,bool> Sample;
 
 const OutLayer normalOut={0.8,0.2},abnormalOut={0.2,0.8};
 
-const double LearningRate=0.05;
+const double LearningRate=0.01;
 
-typedef std::vector<Sample> Batch;
+//typedef std::vector<Sample> Batch;
 const int SuggestedBatchSize=50;
 const int DataSetSize=2000;
 const double normalRatio=0.5;
@@ -45,12 +45,12 @@ const double crossoverProb=0.8;
 //交叉概率
 const double mutateProb=0.05;
 //变异概率
-const int maxGeneration=2999;
+const int maxGeneration=199;
 //最大允许代数
-const int maxFailTimes=50;
+const int maxFailTimes=500;
 //连续50代没有更优的个体产生，则结束
 
-const double iniWeightScale=0.5;
+const double iniWeightScale=0.9;
 //权值初始化范围-0.5~0.5
 
 double randDouble();

@@ -1,6 +1,7 @@
 #ifndef DATASETGENERATOR_H
 #define DATASETGENERATOR_H
 #include "defines.h"
+#include "Batch.h"
 #include "Sequence.h"
 
 extern const std::string normalDatas[];

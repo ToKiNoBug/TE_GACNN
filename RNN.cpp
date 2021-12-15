@@ -43,6 +43,7 @@ bool RNN::run_sort(const Sample & s) const {
 }
 
 Eigen::Map<Eigen::ArrayXd> RNN::toMap() const {
+    //static const int u=sizeof(Eigen::Map<Eigen::ArrayXd>);
     return Eigen::Map<Eigen::ArrayXd>((double*)this,geneLength);
 }
 

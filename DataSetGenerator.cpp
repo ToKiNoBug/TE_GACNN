@@ -103,8 +103,9 @@ void makeDataSet(std::vector<Batch> & dest) {
     std::cout<<"Batch count : "<<dest.size()<<std::endl;
 
     std::cout<<"Batch sizes : [";
-    for(const auto & it : dest) {
+    for(auto & it : dest) {
         std::cout<<it.size()<<" , ";
+        it.makeTrueCount();
     }
     std::cout<<"]"<<std::endl;
 

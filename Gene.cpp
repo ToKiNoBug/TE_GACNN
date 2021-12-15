@@ -49,7 +49,9 @@ void Gene::crossover(Gene * a, Gene * b, int idx) {
         netA
     }
     */
-    Eigen::Map<Eigen::ArrayXd> mapA=a->network.toMap(),mapB=b->network.toMap();
+    Eigen::Map<Eigen::ArrayXd>
+            mapA=a->network.toMap(),
+            mapB=b->network.toMap();
 
 
     /*
@@ -89,24 +91,20 @@ void Gene::calculateFitness(const Batch & batch) {
     fitness=double(100*accuracyTimes)/batch.size();
 #else
     Eigen::Array22d confusion;
-    confusion.setConstant(1e-4);
+    confusion.setConstant(1e-8);
     for(const auto & it : batch) {
         confusion(!network.run_sort(it),!it.second)++;
     }
     confusion.col(0)/=confusion.col(0).sum();
     confusion.col(1)/=confusion.col(1).sum();
 
-    double crossEntropy=0;
     double && negLog2_conf_00=-std::log2(confusion(0,0));
     double && negLog2_conf_11=-std::log2(confusion(1,1));
-    for(const auto & it : batch) {
-        if(it.second) {
-            crossEntropy+=negLog2_conf_00;
-        }
-        else {
-            crossEntropy+=negLog2_conf_11;
-        }
-    }
+
+    double crossEntropy=
+            batch.trueCount()*negLog2_conf_00
+            +(batch.size()-batch.trueCount())*negLog2_conf_11;
+
     crossEntropy/=batch.size();
     //error/=batch.size();
     fitness=-crossEntropy;
