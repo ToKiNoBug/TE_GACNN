@@ -36,7 +36,7 @@ const double LearningRate=0.05;
 typedef std::vector<Sample> Batch;
 const int SuggestedBatchSize=50;
 const int DataSetSize=2000;
-const double normalRatio=0.4;
+const double normalRatio=0.5;
 
 
 const int populationSize=50;
@@ -50,7 +50,7 @@ const int maxGeneration=2999;
 const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束
 
-const double iniWeightScale=0.3;
+const double iniWeightScale=0.5;
 //权值初始化范围-0.5~0.5
 
 double randDouble();

@@ -26,7 +26,11 @@ int main(int argc, char *argv[])
                 accuracyMat(!RNN_res,!j.second)++;
         }
     }
-    accuracyMat/=accuracyMat.sum();
+
+    for(int c=0;c<2;c++) {
+        accuracyMat.col(c)/=accuracyMat.col(c).sum();
+    }
+
     std::cout<<"Accuracy Matrix=\n"<<accuracyMat<<std::endl;
 
     system("pause");
