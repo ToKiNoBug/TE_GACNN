@@ -16,6 +16,10 @@ int main(int argc, char *argv[])
     std::cout<<"Thread count = "<<Eigen::nbThreads()<<std::endl;
     std::srand(std::time(nullptr));
 
+    std::cout<<"Principle Component Num : "<<InputCount<<std::endl;
+    std::cout<<"Mean value of each dim=\n"<<RawDim_Mean.transpose()<<std::endl;
+    std::cout<<"Trans matrix=\n"<<PCA_TransMat<<std::endl;
+
     GeneticRNN algorithm;
     algorithm.run();
 

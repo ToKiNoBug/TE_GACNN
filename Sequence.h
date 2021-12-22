@@ -14,8 +14,8 @@ public:
     //void logBy(const double);
     void mapMinMax();
 
-    static RawData min;
-    static RawData max;
+    static Eigen::Vector<double,InputCount> min;
+    static Eigen::Vector<double,InputCount> max;
     void beginMinMax() const;//reset whole
     void updateMinMax() const;//update
 };

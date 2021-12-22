@@ -1,5 +1,6 @@
 #include "defines.h"
 #include <fstream>
+
 double randDouble() {
     return double(std::rand()%16383)/16383;
 }

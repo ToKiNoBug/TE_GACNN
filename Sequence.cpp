@@ -2,8 +2,8 @@
 #include <iostream>
 #include <fstream>
 
-RawData Sequence::min;
-RawData Sequence::max;
+Eigen::Vector<double,InputCount> Sequence::min;
+Eigen::Vector<double,InputCount> Sequence::max;
 
 Sequence::Sequence()
 {
@@ -29,9 +29,13 @@ bool Sequence::load(const std::string & fileName) {
     val.clear();
     val.reserve(statueCount);
     int loadedState=0;
+
+    RawData buf;
     while(loadedState<statueCount) {
-        val.emplace_back(Input());
-        file.read((char*)val.back().data(),sizeof(RawData));
+        val.emplace_back();
+        file.read((char*)buf.data(),sizeof(RawData));
+
+        val.back().segment<InputCount>(0)=PCA_TransMat*(buf-RawDim_Mean);
         loadedState++;
     }
     return true;
@@ -52,7 +56,7 @@ void Sequence::updateMinMax() const {
 }
 
 void Sequence::mapMinMax() {
-    RawData range_Mul=1.0/(max-min).array();
+    auto range_Mul=1.0/(max-min).array();
     for(auto & it : val) {
         it.segment<InputCount>(0)-=min;
         it.segment<InputCount>(0).array()*=range_Mul.array();
