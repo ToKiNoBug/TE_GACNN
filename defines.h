@@ -36,7 +36,7 @@ const double LearningRate=0.01;
 //typedef std::vector<Sample> Batch;
 const int SuggestedBatchSize=50;
 const int DataSetSize=2000;
-const double normalRatio=0.5;
+const double normalRatio=0.3;
 
 
 const int populationSize=50;
