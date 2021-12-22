@@ -11,6 +11,7 @@ public:
     std::vector<Input> val;
     bool isNormal;
     bool load(const std::string &);
+    //void logBy(const double);
     void mapMinMax();
 
     static RawData min;

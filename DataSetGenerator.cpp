@@ -1,5 +1,7 @@
 #include "DataSetGenerator.h"
 
+#include <unordered_set>
+
 const std::string normalDatas[]={
     "./DataSet/Normal.data"
 };
@@ -29,7 +31,8 @@ const std::string abnormalDatas[]={
 
 std::list<Sequence> normalDataSource,abnormalDataSource;
 
-Sample stochaticSample(const std::list<Sequence>&,bool isNormal);
+const Input* stochaticSample(const std::list<Sequence>&,
+                       std::unordered_set<const Input*> & selected);
 
 void makeDataSet(std::vector<Batch> & dest) {
     dest.clear();
@@ -58,15 +61,14 @@ void makeDataSet(std::vector<Batch> & dest) {
 
     normalDataSource.front().beginMinMax();
     {
-        auto it=normalDataSource.begin();
-        it++;
-        while(it!=normalDataSource.end()) {
-            it->updateMinMax();
+        for(auto & i : normalDataSource) {
+            i.updateMinMax();
         }
         for(auto & i : abnormalDataSource) {
             i.updateMinMax();
         }
     }
+
 
     {
         for(auto & i : normalDataSource) {
@@ -77,16 +79,33 @@ void makeDataSet(std::vector<Batch> & dest) {
         }
     }
 
+    std::unordered_set<const Input*> normal_selected,abnormal_selected;
+    normal_selected.clear();abnormal_selected.clear();
+    normal_selected.reserve(DataSetSize*0.6);
+    abnormal_selected.reserve(DataSetSize*0.6);
+
+    for(int inserted=0;inserted<DataSetSize;) {
+        const Input* result;
+        if(randDouble()<normalRatio) {
+            result=stochaticSample(normalDataSource,normal_selected);
+        } else {
+            result=stochaticSample(abnormalDataSource,abnormal_selected);
+        }
+        if(result==nullptr) {
+            continue;
+        }
+        inserted++;
+    }
+
     std::vector<Sample> FullSample;
     FullSample.clear();
-    FullSample.reserve(DataSetSize);
+    FullSample.reserve(normal_selected.size()+abnormal_selected.size());
 
-    while(FullSample.size()<DataSetSize) {
-        if(randDouble()<=normalRatio) {
-            FullSample.emplace_back(stochaticSample(normalDataSource,true));
-        } else {
-            FullSample.emplace_back(stochaticSample(abnormalDataSource,false));
-        }
+    for(auto i : normal_selected) {
+        FullSample.emplace_back(std::make_pair(i,true));
+    }
+    for(auto i : abnormal_selected) {
+        FullSample.emplace_back(std::make_pair(i,false));
     }
 
     std::random_shuffle(FullSample.begin(),FullSample.end());
@@ -111,9 +130,11 @@ void makeDataSet(std::vector<Batch> & dest) {
 
 }
 
-Sample stochaticSample(const std::list<Sequence>& src,bool isNormal) {
+const Input* stochaticSample(const std::list<Sequence>& src,
+                       std::unordered_set<const Input*> & selected) {
     std::list<Sequence>::const_iterator selectedSeq;
     int n=src.size();
+    //choose seq randomly
     for(auto it=src.cbegin();it!=src.cend();it++) {
         if(std::rand()%n==0) {
             selectedSeq=it;
@@ -122,9 +143,20 @@ Sample stochaticSample(const std::list<Sequence>& src,bool isNormal) {
         n--;
     }
 
-    Sample result;
-    int offset=std::rand()%(selectedSeq->val.size()-SampleLength+1);
-    result.first=selectedSeq->val.data()+offset;
-    result.second=isNormal;
+    const Input* result;
+    for(uint8_t failTimes=0;;failTimes++) {
+        if(failTimes>=255) {
+            std::cerr<<"Error! failed to make unique sample"<<std::endl;
+            result=nullptr;
+            return result;
+        }
+        int offset=std::rand()%(selectedSeq->val.size()-SampleLength+1);
+        result=selectedSeq->val.data()+offset;
+        if(selected.find(result)==selected.end()) {
+            break;
+        }
+    }
+    selected.insert(result);
+
     return result;
 }

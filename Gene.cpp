@@ -58,7 +58,15 @@ void Gene::crossover(Gene * a, Gene * b, int idx) {
     a->value.DNA.segment(idx,geneLength-idx).swap(
                 b->value.DNA.segment(idx,geneLength-idx));
     */
+#ifdef CROSSOVER_BY_DISCRETE_SWAP
+    for(idx=0;idx<geneLength;idx++) {
+        if(std::rand()%2) {
+            std::swap(mapA(idx),mapB(idx));
+        }
+    }
+#else
     mapA.segment(idx,geneLength-idx).swap(mapB.segment(idx,geneLength-idx));
+#endif
 
     a->isCalculated=false;
     b->isCalculated=false;

@@ -40,7 +40,7 @@ bool Sequence::load(const std::string & fileName) {
 void Sequence::beginMinMax() const {
     min=val.front().segment<InputCount>(0);
     max=min;
-    updateMinMax();
+    //updateMinMax();
 }
 
 void Sequence::updateMinMax() const {
@@ -59,6 +59,15 @@ void Sequence::mapMinMax() {
         it(InputCount)=1;
     }
 }
+/*
+void Sequence::logBy(const double a) {
+    for(auto & it : val) {
+        it.segment<InputCount>(0)-=min;
+        it.segment<InputCount>(0).array()+=1e-4;
+        it.segment<InputCount>(0).array()=it.segment<InputCount>(0).array().log2()/std::log2(a);
+    }
+}
+*/
 
 void test_Sequence() {
     std::string path="D:/Git/TE_GARNN/DataSet/Normal.data";

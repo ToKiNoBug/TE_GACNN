@@ -43,11 +43,13 @@ const int populationSize=50;
 //种群规模
 const double crossoverProb=0.8;
 //交叉概率
+#define CROSSOVER_BY_DISCRETE_SWAP
+
 const double mutateProb=0.05;
 //变异概率
-const int maxGeneration=199;
+const int maxGeneration=2000-1;
 //最大允许代数
-const int maxFailTimes=500;
+const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束
 
 const double iniWeightScale=0.9;

@@ -23,6 +23,9 @@ void GeneticRNN::initialize() {
     makeDataSet(dataSet);
     std::cerr<<"data set initialized\n";
 
+    std::cout<<"Max=\n"<<Sequence::max.transpose()<<std::endl;
+    std::cout<<"Min=\n"<<Sequence::min.transpose()<<std::endl;
+
     population.resize(populationSize);
     for(auto & i : population) {
         i.initialize(iniWeightScale);
