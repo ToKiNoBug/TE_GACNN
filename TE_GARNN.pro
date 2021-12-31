@@ -1,7 +1,7 @@
-TEMPLATE = app
-CONFIG += console c++11
+QT -= gui
+QT += concurrent
+CONFIG += c++11 console
 CONFIG -= app_bundle
-CONFIG -= qt
 
 INCLUDEPATH += D:/CppLibs/eigen-3.4.0
 

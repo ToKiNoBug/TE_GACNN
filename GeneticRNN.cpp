@@ -1,5 +1,8 @@
 #include "GeneticRNN.h"
 #include <fstream>
+#include <QtConcurrent>
+#include <queue>
+
 GeneticRNN::GeneticRNN(){
     statue=AlgoStatue::none;
 }
@@ -50,11 +53,38 @@ void GeneticRNN::calculateAll() {
         prevBatch=currentBatchIdx;
         isBatchSwitched=true;
     }
-    for(auto & i : population) {
-        if(isBatchSwitched)
-            i.setUncalculated();
-        i.calculateFitness(dataSet[currentBatchIdx]);
+    if(isBatchSwitched)
+        for(auto & i : population) {
+                i.setUncalculated();
+            //i.calculateFitness(dataSet[currentBatchIdx]);
+        }
+
+    static const uint32_t threadCount=std::thread::hardware_concurrency();
+    static const uint32_t basicTaskCount=population.size()/threadCount;
+
+    std::queue<QFuture<void>> tasks;
+    uint32_t taken=0;
+    for(uint32_t i=0;i<threadCount;i++) {
+        uint32_t curCount=basicTaskCount
+                +(i<(population.size()-basicTaskCount*threadCount));
+
+        auto future=QtConcurrent::run([](Gene * g,const Batch * b,const uint32_t count){
+                for(uint32_t idx=0;idx<count;idx++) {
+                    (g+idx)->calculateFitness(*b);
+        }
+        },population.data()+taken,&dataSet[currentBatchIdx],curCount);
+    //std::cout<<"taskSize="<<curCount<<std::endl;
+        taken+=curCount;
+        tasks.emplace(future);
     }
+
+while(!tasks.empty()) {
+    tasks.front().waitForFinished();
+    tasks.pop();
+}
+
+
+
 }
 
 void GeneticRNN::select() {
@@ -138,6 +168,7 @@ void GeneticRNN::run() {
 
         calculateAll();
 
+        select();
         if(generation>maxGeneration) {
             std::cerr<<"finished by maxGeneration limit\n";
             break;
@@ -147,7 +178,6 @@ void GeneticRNN::run() {
             break;
         }
 
-        select();
         record.emplace_back(population[eliteIdx].fitness);
         std::cerr<<"generation "<<generation;
         std::cerr<<" , best fitness="<<population[eliteIdx].fitness<<std::endl;

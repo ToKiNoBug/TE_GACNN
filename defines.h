@@ -2,6 +2,7 @@
 #define DEFINES_H
 
 //#define EIGEN_NO_DEBUG
+#define EIGEN_DONT_PARALLELIZE
 #include <Eigen/Dense>
 #include <iostream>
 #include <vector>
@@ -17,7 +18,7 @@ const int InputCount=52;
 typedef Eigen::Vector<double,InputCount> RawData;
 typedef Eigen::Vector<double,InputCount+1> Input;// single statue
 
-const int HiddenCount=14;
+const int HiddenCount=24;
 typedef Eigen::Matrix<double,HiddenCount,InputCount+1> In2Hid;//U
 typedef Eigen::Vector<double,HiddenCount+1> HiddenLayer;
 typedef Eigen::Matrix<double,HiddenCount,HiddenCount> Hid2Hid;//W
