@@ -2,6 +2,7 @@
 #define DEFINES_H
 
 //#define EIGEN_NO_DEBUG
+#define EIGEN_DONT_PARALLELIZE
 #include <Eigen/Dense>
 #include <iostream>
 #include <vector>
@@ -19,7 +20,7 @@ typedef Eigen::Vector<double,RawDim> RawData;
 
 typedef Eigen::Vector<double,InputCount+1> Input;// single statue
 
-const int HiddenCount=14;
+const int HiddenCount=24;
 typedef Eigen::Matrix<double,HiddenCount,InputCount+1> In2Hid;//U
 typedef Eigen::Vector<double,HiddenCount+1> HiddenLayer;
 typedef Eigen::Matrix<double,HiddenCount,HiddenCount> Hid2Hid;//W
@@ -49,7 +50,7 @@ const double crossoverProb=0.8;
 
 const double mutateProb=0.05;
 //变异概率
-const int maxGeneration=2000-1;
+const int maxGeneration=20-1;
 //最大允许代数
 const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束

@@ -5,14 +5,10 @@
 #include <cmath>
 #include <windows.h>
 
-#ifdef EIGEN_DONT_PARALLELIZE
-#error PARALLELIZE is disabled
-#endif
-
 int main(int argc, char *argv[])
 {
     SetConsoleTitleA("TE-GA-RNN");
-    Eigen::initParallel();
+
     std::cout<<"Thread count = "<<Eigen::nbThreads()<<std::endl;
     std::srand(std::time(nullptr));
 
