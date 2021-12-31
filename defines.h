@@ -27,7 +27,7 @@ const int OutputCount=2;
 typedef Eigen::Vector<double,OutputCount> OutLayer;
 typedef Eigen::Matrix<double,2,HiddenCount+1> Hid2Out;//V
 
-const int SampleLength=48;
+const int SampleLength=96;
 typedef std::pair<const Input*,bool> Sample;
 
 const OutLayer normalOut={0.8,0.2},abnormalOut={0.2,0.8};
@@ -48,7 +48,7 @@ const double crossoverProb=0.8;
 
 const double mutateProb=0.05;
 //变异概率
-const int maxGeneration=2000-1;
+const int maxGeneration=200-1;
 //最大允许代数
 const int maxFailTimes=50;
 //连续50代没有更优的个体产生，则结束

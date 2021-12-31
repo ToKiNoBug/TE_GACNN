@@ -63,20 +63,27 @@ void GeneticRNN::calculateAll() {
     static const uint32_t basicTaskCount=population.size()/threadCount;
 
     std::queue<QFuture<void>> tasks;
+    for(auto & i : population) {
+        tasks.emplace(QtConcurrent::run(
+                          [](Gene * g,const Batch & b){
+                          g->calculateFitness(b);
+                      },&i,dataSet[currentBatchIdx]));
+    }
+    /*
     uint32_t taken=0;
     for(uint32_t i=0;i<threadCount;i++) {
         uint32_t curCount=basicTaskCount
                 +(i<(population.size()-basicTaskCount*threadCount));
 
-        auto future=QtConcurrent::run([](Gene * g,const Batch * b,const uint32_t count){
+        auto future=QtConcurrent::run(
+                    [](Gene * g,const Batch * b,const uint32_t count){
                 for(uint32_t idx=0;idx<count;idx++) {
                     (g+idx)->calculateFitness(*b);
-        }
-        },population.data()+taken,&dataSet[currentBatchIdx],curCount);
+        }},population.data()+taken,&dataSet[currentBatchIdx],curCount);
     //std::cout<<"taskSize="<<curCount<<std::endl;
         taken+=curCount;
         tasks.emplace(future);
-    }
+    }*/
 
 while(!tasks.empty()) {
     tasks.front().waitForFinished();
