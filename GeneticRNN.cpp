@@ -59,8 +59,8 @@ void GeneticRNN::calculateAll() {
             //i.calculateFitness(dataSet[currentBatchIdx]);
         }
 
-    static const uint32_t threadCount=std::thread::hardware_concurrency();
-    static const uint32_t basicTaskCount=population.size()/threadCount;
+    //static const uint32_t threadCount=std::thread::hardware_concurrency();
+    //static const uint32_t basicTaskCount=population.size()/threadCount;
 
     std::queue<QFuture<void>> tasks;
     for(auto & i : population) {
