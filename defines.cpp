@@ -1,8 +1,9 @@
 #include "defines.h"
 #include <fstream>
+/*
 double randDouble() {
     return double(std::rand()%16383)/16383;
-}
+}*/
 
 void writeMatrixAsMatlab(const Eigen::MatrixXd mat,std::fstream& file) {
     file<<"[\n";

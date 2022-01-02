@@ -1,9 +1,10 @@
-#include "Gene.h"
-#include "GeneticRNN.h"
 
+#include <iostream>
 #include <ctime>
 #include <cmath>
 #include <windows.h>
+#include "defines.h"
+//#include "Sequence.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,9 @@ int main(int argc, char *argv[])
     std::cout<<"Thread count = "<<Eigen::nbThreads()<<std::endl;
     std::srand(std::time(nullptr));
 
+    //test_Sequence();
+
+/*
     GeneticRNN algorithm;
     algorithm.run();
 
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
     }
 
     std::cout<<"Accuracy Matrix=\n"<<accuracyMat<<std::endl;
-
+*/
     system("pause");
     return 0;
 }

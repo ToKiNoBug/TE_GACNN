@@ -86,7 +86,7 @@ void makeDataSet(std::vector<Batch> & dest) {
 
     for(int inserted=0;inserted<DataSetSize;) {
         const Input* result;
-        if(randDouble()<normalRatio) {
+        if(randD()<normalRatio) {
             result=stochaticSample(normalDataSource,normal_selected);
         } else {
             result=stochaticSample(abnormalDataSource,abnormal_selected);

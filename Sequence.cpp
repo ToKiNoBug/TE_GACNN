@@ -31,21 +31,21 @@ bool Sequence::load(const std::string & fileName) {
     int loadedState=0;
     while(loadedState<statueCount) {
         val.emplace_back(Input());
-        file.read((char*)val.back().data(),sizeof(RawData));
+        file.read((char*)(val.back().data()+1),sizeof(RawData));
         loadedState++;
     }
     return true;
 }
 
 void Sequence::beginMinMax() const {
-    min=val.front().segment<InputCount>(0);
+    min=val.front().segment<InputCount>(1);
     max=min;
     //updateMinMax();
 }
 
 void Sequence::updateMinMax() const {
     for(const auto & it : val) {
-        auto curSeg=it.segment<InputCount>(0).array();
+        auto curSeg=it.segment<InputCount>(1).array();
         min=min.array().min(curSeg);
         max=max.array().max(curSeg);
     }
@@ -54,9 +54,9 @@ void Sequence::updateMinMax() const {
 void Sequence::mapMinMax() {
     RawData range_Mul=1.0/(max-min).array();
     for(auto & it : val) {
-        it.segment<InputCount>(0)-=min;
-        it.segment<InputCount>(0).array()*=range_Mul.array();
-        it(InputCount)=1;
+        it.segment<InputCount>(1)-=min;
+        it.segment<InputCount>(1).array()*=range_Mul.array();
+        //it(InputCount)=1;
     }
 }
 /*
@@ -80,6 +80,7 @@ void test_Sequence() {
             <<s.val.front().transpose()<<"\ns.back=\n"<<s.val.back().transpose()<<std::endl;
     std::cout<<"s.size="<<s.val.size()<<std::endl;
     s.beginMinMax();
+    s.updateMinMax();
     std::cout<<"min and max=\n"
             <<s.min.transpose()<<"\n , max=\n"<<s.max.transpose()<<std::endl;
 
