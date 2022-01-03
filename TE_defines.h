@@ -46,7 +46,7 @@ constexpr const int SF10Count=2;
 
 constexpr const int SuggestedBatchSize=50;
 constexpr const int DataSetSize=2000;
-constexpr const double normalRatio=0.3;
+//constexpr const double normalRatio=0.3;
 
 typedef Eigen::Map<const Eigen::Array<double,InputCount+2,SampleLength>> sampleMat;
 typedef Eigen::Array<double,ConvL1CoreL,ConvL1CoreL> ConvL1Core;//

@@ -21,6 +21,9 @@ bool Sequence::load(const std::string & fileName) {
     file.seekg(0,std::ios::beg);
     const int statueCount=std::floor(double(fileSize)/sizeof(RawData));
     val.clear();
+
+    //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
+    //std::cerr<<"statueCount = "<<statueCount<<std::endl;
     val.reserve(statueCount);
     int loadedState=0;
     while(loadedState<statueCount) {

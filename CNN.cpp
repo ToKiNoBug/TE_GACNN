@@ -5,6 +5,10 @@ CNN::CNN()
 
 }
 
+Eigen::Map<Eigen::ArrayXd> CNN::toMap() {
+    return Eigen::Map<Eigen::ArrayXd>((double *)this,GeneL);
+}
+
 void CNN::run(const Batch * b,ConfusionMat & cm) const {
     cm.setZero();
     SFL10Out out;
@@ -14,9 +18,13 @@ void CNN::run(const Batch * b,ConfusionMat & cm) const {
         out.maxCoeff(&res);
         cm(!res,!it.second)++;
     }
+    /*
     for(uint16_t c=0;c<cm.cols();c++) {
         cm.col(c)/=b->size();
     }
+    */
+    cm.col(0)/=(b->trueCount()+1e-9);
+    cm.col(1)/=(b->size()-b->trueCount()+1e-9);
 }
 
 void CNN::run(const Sample * s, SFL10Out &SFL10O) const {
@@ -71,4 +79,16 @@ void CNN::run(const Sample * s, SFL10Out &SFL10O) const {
 
     SFL10O=eig_logsig(W910*FCL9O);
 
+}
+
+void test_CNN(const Batch *) {
+    CNN network;
+    network.toMap().setRandom();
+    std::cout<<"Core1=\n"<<network.Core1<<std::endl;
+    std::cout<<"Core2=\n"<<network.Core2<<std::endl;
+    std::cout<<"W39=\n"<<network.W39<<std::endl;
+
+    std::cout<<"B9^T=\n"<<network.B9.transpose()<<std::endl;
+
+    std::cout<<"W910=\n"<<network.W910<<std::endl;
 }

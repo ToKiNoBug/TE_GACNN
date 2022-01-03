@@ -14,6 +14,13 @@ public:
     void run(const Sample *, SFL10Out &) const;
     void run(const Batch *,ConfusionMat &) const;
     Eigen::Map<Eigen::ArrayXd> toMap();
+    static const int GeneL=
+            (sizeof(Core1)+sizeof(Core2)+sizeof(W39)+sizeof(B9)+sizeof(W910))/sizeof(double);
 };
+
+const double GeneL_d_str=sizeof(CNN)/double(sizeof(double));
+const uint32_t GeneL_str=GeneL_d_str;
+
+void test_CNN(const Batch *);
 
 #endif // CNN_H

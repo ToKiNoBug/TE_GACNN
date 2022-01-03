@@ -13,6 +13,7 @@ INCLUDEPATH += D:/CppLibs/eigen-3.4.0 \
 SOURCES += \
         Batch.cpp \
         CNN.cpp \
+        DataSetMaker.cpp \
         Sequence.cpp \
         #defines.cpp \
         TE_defines.cpp \
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Batch.h \
     CNN.h \
+    DataSetMaker.h \
     Sequence.h \
     TE_defines.h
      #defines.h
