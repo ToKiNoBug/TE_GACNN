@@ -12,7 +12,7 @@
 //using namespace Eigen;
 //using namespace std;
 double ReLu(const double);
-void writeMatrixToFile(Eigen::MatrixXd mat_____,std::ofstream & file);
+void writeMatrixToFile(Eigen::MatrixXd _mat,std::fstream& _file);
 
 #define eig_logsig(x) (1.0/(1.0+(-(x)).array().exp()))
 ///tansig(x) = 2/(1+exp(-2*net))-1

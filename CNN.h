@@ -14,6 +14,7 @@ public:
     void run(const Sample *, SFL10Out &) const;
     void run(const Batch *,ConfusionMat &,bool=true) const;
     Eigen::Map<Eigen::ArrayXd> toMap();
+    Eigen::Map<const Eigen::ArrayXd> toConstMap() const;
     static const int GeneL=
             (sizeof(Core1)+sizeof(Core2)+sizeof(W39)+sizeof(B9)+sizeof(W910))/sizeof(double);
     static void dispOffset();

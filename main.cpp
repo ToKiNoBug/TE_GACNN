@@ -1,13 +1,14 @@
 #include <QCoreApplication>
-//#include "Sequence.h"
+
 #include "TE_defines.h"
 #include "Sequence.h"
 #include "CNN.h"
 #include "DataSetMaker.h"
 #include "TrainCNN.h"
-
+//#include "TE_defines.cpp"
 #include <ctime>
 void initializeSrand();
+
 
 int main(int argc, char *argv[])
 {
@@ -76,6 +77,31 @@ int main(int argc, char *argv[])
         cm.col(c)/=(cm.col(c).sum()+1e-10);
     }
 
+    const auto & record=algo.recording();
+
+
+    {
+        Eigen::Map<const Eigen::ArrayXd> eig_re(record.data(),record.size());
+        std::fstream file;
+        file.open("./result.m",std::ios::out|std::ios::trunc);
+        file<<"%% trainning result\n";
+        file<<"\nCore1=";
+        writeMatrixToFile(result.Core1,file);
+        file<<"\nCore2=";
+        writeMatrixToFile(result.Core2,file);
+        file<<"\nW39=";
+        writeMatrixToFile(result.W39,file);
+        file<<"\nB9=";
+        writeMatrixToFile(result.B9,file);
+        file<<"\nW910=";
+        writeMatrixToFile(result.W910,file);
+        file<<"\n\n\nConfusionMatrix=";
+        writeMatrixToFile(cm,file);
+        file<<"\n\nFitnesses=";
+        writeMatrixToFile(eig_re,file);
+        file.close();
+    }
+
     std::cout<<"Confusion matrix = \n"<<cm<<std::endl;
     //QCoreApplication a(argc, argv);
     system("pause");
@@ -106,20 +132,26 @@ double crossEntropy(const CNN* network,const Algo_t::ArgsType* args) {
     const Batch * curBatch=std::get<dataIdx>(*args)->data()+std::get<batchIdxIdx>(*args);
     ConfusionMat cm;
     network->run(curBatch,cm);
-
+    static const ConfusionMat E={{1,0},{0,1}};
+    return (cm-E).abs().sum();
+    /*
     double trueProb=double(curBatch->trueCount())/curBatch->size();
     double falseProb=1-trueProb;
     double entropy=-(trueProb*std::log(1e-10+cm(0,0))+falseProb*std::log(1e-10+cm(1,1)));
-    return entropy;
+    return entropy;*/
 }
 
-void discreteSwap(CNN* A,CNN* B,const Algo_t::ArgsType*) {
-    auto a=A->toMap(),b=B->toMap();
-    for(uint32_t i=0;i<a.size();i++) {
-        if(AT::randD()<0.3) {
-            std::swap(a[i],b[i]);
-        }
+void discreteSwap(const CNN * par1,const CNN * par2,
+        CNN * ch1,CNN * ch2,
+                  const Algo_t::ArgsType*) {
+    const auto & parent1=par1->toConstMap(),parent2=par2->toConstMap();
+    auto child1=ch1->toMap(),child2=ch2->toMap();
+
+    for(uint32_t i=0;i<parent1.size();i++) {
+        child1[i]=(std::rand()%2)?parent1[i]:parent2[i];
+        child2[i]=(std::rand()%2)?parent1[i]:parent2[i];
     }
+
 }
 
 void mutate(CNN* network,const Algo_t::ArgsType* args) {
@@ -136,7 +168,7 @@ void mutate(CNN* network,const Algo_t::ArgsType* args) {
 }
 
 void switchBatch(Algo_t::ArgsType* args,
-                 std::vector<Algo_t::Gene>* pop,
+                 std::list<Algo_t::Gene>* pop,
                  size_t generation,
                  size_t,
                  const AT::GAOption*) {
@@ -148,3 +180,5 @@ void switchBatch(Algo_t::ArgsType* args,
         }
     }
 }
+
+

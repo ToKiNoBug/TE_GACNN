@@ -9,6 +9,10 @@ Eigen::Map<Eigen::ArrayXd> CNN::toMap() {
     return Eigen::Map<Eigen::ArrayXd>((double *)this,GeneL_str);
 }
 
+Eigen::Map<const Eigen::ArrayXd> CNN::toConstMap() const {
+    return Eigen::Map<const Eigen::ArrayXd>((const double *)this,GeneL_str);
+}
+
 void CNN::dispOffset() {
     std::cout<<"offsetof Core1 = "<<offsetof(CNN,Core1)
             <<" , sizeof Core1 = "<<sizeof(Core1)<<std::endl;

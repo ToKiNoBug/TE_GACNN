@@ -4,7 +4,7 @@ double ReLu(const double x) {
     return std::max(x,0.0);
 }
 
-void writeMatrixAsMatlab(Eigen::MatrixXd _mat,std::ofstream& _file) {
+void writeMatrixToFile(Eigen::MatrixXd _mat,std::fstream& _file) {
     _file<<"[\n";
     for(int r=0;r<_mat.rows();r++) {
         for(int c=0;c<_mat.cols();c++) {

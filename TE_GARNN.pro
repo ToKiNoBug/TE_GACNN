@@ -15,9 +15,7 @@ SOURCES += \
         CNN.cpp \
         DataSetMaker.cpp \
         Sequence.cpp \
-        #defines.cpp \
         TE_defines.cpp \
-        #TrainCNN.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -32,4 +30,3 @@ HEADERS += \
     Sequence.h \
     TE_defines.h \
     TrainCNN.h
-     #defines.h

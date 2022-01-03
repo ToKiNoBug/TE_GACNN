@@ -1,8 +1,7 @@
 #ifndef TRAINCNN_H
 #define TRAINCNN_H
 
-#define
-
+#define AT_OUTPUT
 #include <Genetic>
 #include "TE_defines.h"
 #include "CNN.h"
@@ -41,12 +40,12 @@ void initializer(CNN*,const Algo_t::ArgsType*);
 ///fitness function
 double crossEntropy(const CNN*,const Algo_t::ArgsType*);
 ///crossover function
-void discreteSwap(CNN*,CNN*,const Algo_t::ArgsType*);
+void discreteSwap(const CNN * ,const CNN *,CNN*,CNN*,const Algo_t::ArgsType*);
 ///mutate function
 void mutate(CNN*,const Algo_t::ArgsType*);
 ///switch batch
 void switchBatch(Algo_t::ArgsType*,
-                 std::vector<Algo_t::Gene>*,
+                 std::list<Algo_t::Gene>*,
                  size_t generation,
                  size_t failTimes,
                  const AT::GAOption*);
