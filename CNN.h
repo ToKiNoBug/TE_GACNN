@@ -12,10 +12,11 @@ public:
     Bias9 B9;
     Weight910 W910;
     void run(const Sample *, SFL10Out &) const;
-    void run(const Batch *,ConfusionMat &) const;
+    void run(const Batch *,ConfusionMat &,bool=true) const;
     Eigen::Map<Eigen::ArrayXd> toMap();
     static const int GeneL=
             (sizeof(Core1)+sizeof(Core2)+sizeof(W39)+sizeof(B9)+sizeof(W910))/sizeof(double);
+    static void dispOffset();
 };
 
 const double GeneL_d_str=sizeof(CNN)/double(sizeof(double));

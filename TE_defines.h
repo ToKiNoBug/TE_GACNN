@@ -69,6 +69,7 @@ constexpr const bool POOLING_NO_SIZE_ERROR=((InputCount-2)%PoolL3StrideR==0)
 #error POOLING_SIZE_ERROR
 #endif
 
-
+//#define TE_CNN_FILL_NAN
+//#define TE_CNN_PARALLELIZE
 
 #endif // TE_DEFINES_H

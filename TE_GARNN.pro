@@ -1,5 +1,5 @@
 QT -= gui
-
+QT += concurrent
 CONFIG += c++17 console
 CONFIG -= app_bundle
 
@@ -17,6 +17,7 @@ SOURCES += \
         Sequence.cpp \
         #defines.cpp \
         TE_defines.cpp \
+        #TrainCNN.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -29,5 +30,6 @@ HEADERS += \
     CNN.h \
     DataSetMaker.h \
     Sequence.h \
-    TE_defines.h
+    TE_defines.h \
+    TrainCNN.h
      #defines.h
