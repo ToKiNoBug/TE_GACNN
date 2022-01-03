@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+//#include <QCoreApplication>
 
 #include "TE_defines.h"
 #include "Sequence.h"
