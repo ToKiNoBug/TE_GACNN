@@ -1,6 +1,4 @@
 #include "Sequence.h"
-#include <iostream>
-#include <fstream>
 
 RawData Sequence::min;
 RawData Sequence::max;
@@ -8,10 +6,6 @@ RawData Sequence::max;
 Sequence::Sequence()
 {
 val.clear();
-}
-
-Sequence::~Sequence() {
-
 }
 
 bool Sequence::load(const std::string & fileName) {
@@ -54,20 +48,13 @@ void Sequence::updateMinMax() const {
 void Sequence::mapMinMax() {
     RawData range_Mul=1.0/(max-min).array();
     for(auto & it : val) {
+        it(0)=PaddingVal;
         it.segment<InputCount>(1)-=min;
         it.segment<InputCount>(1).array()*=range_Mul.array();
+        it(it.size()-1)=PaddingVal;
         //it(InputCount)=1;
     }
 }
-/*
-void Sequence::logBy(const double a) {
-    for(auto & it : val) {
-        it.segment<InputCount>(0)-=min;
-        it.segment<InputCount>(0).array()+=1e-4;
-        it.segment<InputCount>(0).array()=it.segment<InputCount>(0).array().log2()/std::log2(a);
-    }
-}
-*/
 
 void test_Sequence() {
     std::string path="D:/Git/TE_GARNN/DataSet/Normal.data";

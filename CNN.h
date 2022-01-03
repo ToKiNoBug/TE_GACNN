@@ -1,13 +1,11 @@
 #ifndef CNN_H
 #define CNN_H
-
-#include "defines.h"
+#include "TE_defines.h"
 #include "Batch.h"
 class CNN
 {
 public:
     CNN();
-    ~CNN();
     ConvL1Core Core1;
     ConvL2Core Core2;
     Weight39 W39;
@@ -17,7 +15,5 @@ public:
     void run(const Batch *,ConfusionMat &) const;
     Eigen::Map<Eigen::ArrayXd> toMap();
 };
-
-const uint32_t GeneL=sizeof(CNN)/sizeof(double);
 
 #endif // CNN_H

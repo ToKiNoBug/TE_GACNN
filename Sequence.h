@@ -1,24 +1,24 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
-#include "defines.h"
-
+#include "TE_defines.h"
+#include<vector>
 class Sequence
 {
 public:
     Sequence();
-    ~Sequence();
     std::vector<Input> val;
     bool isNormal;
     bool load(const std::string &);
-    //void logBy(const double);
+
+    void beginMinMax() const;//reset whole
+    void updateMinMax() const;//update
     void mapMinMax();
 
     static RawData min;
     static RawData max;
-    void beginMinMax() const;//reset whole
-    void updateMinMax() const;//update
 };
 
 void test_Sequence();
+
 #endif // SEQUENCE_H

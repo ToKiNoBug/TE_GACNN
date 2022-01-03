@@ -1,10 +1,7 @@
 #include "CNN.h"
-#include "defines.h"
-CNN::CNN() {
 
-}
-
-CNN::~CNN() {
+CNN::CNN()
+{
 
 }
 

@@ -1,25 +1,31 @@
 QT -= gui
-QT += concurrent
-CONFIG += c++11 console
+
+CONFIG += c++17 console
 CONFIG -= app_bundle
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += D:/CppLibs/eigen-3.4.0 \
                                D:/CppLibs/AlgoTemplates
 
 SOURCES += \
         Batch.cpp \
-        #CNN.cpp \
-        #DataSetGenerator.cpp \
-        #Sequence.cpp \
-        defines.cpp \
+        CNN.cpp \
+        Sequence.cpp \
+        #defines.cpp \
+        TE_defines.cpp \
         main.cpp
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
     Batch.h \
-    #CNN.h \
-    #DataSetGenerator.h \
-    #Sequence.h \
-    defines.h
-
-QMAKE_CXXFLAGS += -fopenmp
-LIBS += -fopenmp
+    CNN.h \
+    Sequence.h \
+    TE_defines.h
+     #defines.h

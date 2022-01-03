@@ -1,6 +1,7 @@
 #ifndef BATCH_H
 #define BATCH_H
-#include "defines.h"
+
+#include "TE_defines.h"
 
 class Batch : public std::vector<Sample>
 {
