@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     makeBatches(&trainning,dataSetSize,batchSize,true);
 
     Algo_t algo;
-    AT::GAOption opt;
+    OptimT::GAOption opt;
     std::cout<<"population Size = ";
     std::cin>>opt.populationSize;
     std::cout<<"max generations = ";
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     std::cin>>std::get<LrIdx>(args);
 
     algo.initialize(initializer,
-                    crossEntropy,
+                    fitness,
                     discreteSwap,
                     mutate,switchBatch,
                     opt,args);
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
         cm.col(c)/=(cm.col(c).sum()+1e-10);
     }
 
-    const auto & record=algo.recording();
+    const auto & record=algo.record();
 
 
     {
@@ -116,11 +116,11 @@ void initializeSrand() {
 void initializer(CNN* network,const Algo_t::ArgsType* args) {
 auto g=network->toMap();
 for(auto & x : g) {
-    x=AT::randD(std::get<minIdx>(*args),std::get<maxIdx>(*args));
+    x=OptimT::randD(std::get<minIdx>(*args),std::get<maxIdx>(*args));
 }
 }
 
-double crossEntropy(const CNN* network,const Algo_t::ArgsType* args) {
+double fitness(const CNN* network,const Algo_t::ArgsType* args) {
     /*
     static size_t prevBatchIdx=-1;
     bool isBatchSwitched=false;
@@ -158,8 +158,8 @@ void mutate(CNN* network,const Algo_t::ArgsType* args) {
     auto x=network->toMap();
     uint32_t mutateIdx=std::rand()%(x.size());
     double & mutateVar=x[mutateIdx];
-    mutateVar+=AT::randD(-1,1)*std::get<LrIdx>(*args);
-    if(AT::randD()<0.3) {
+    mutateVar+=OptimT::randD(-1,1)*std::get<LrIdx>(*args);
+    if(OptimT::randD()<0.3) {
         mutateVar*=-1;
     }
 
@@ -171,7 +171,7 @@ void switchBatch(Algo_t::ArgsType* args,
                  std::list<Algo_t::Gene>* pop,
                  size_t generation,
                  size_t,
-                 const AT::GAOption*) {
+                 const OptimT::GAOption*) {
     if(generation%10==0) {
         std::get<batchIdxIdx>(*args)=(std::get<batchIdxIdx>(*args)+1)
                 %(std::get<dataIdx>(*args)->size());

@@ -2,21 +2,23 @@
 #define TRAINCNN_H
 
 #define AT_OUTPUT
-#include <Genetic>
+#include <OptimTemplates/Genetic>
 #include "TE_defines.h"
 #include "CNN.h"
 #include "DataSetMaker.h"
 #include "Batch.h"
 
 
-typedef AT::GA<CNN, //network
-false,//less fitness means better
+using AlgoBase = OptimT::SOGA   //genetic algorithm solver class
+<CNN, //network
+OptimT::FITNESS_LESS_BETTER,//less fitness means better
+OptimT::RECORD_FITNESS,//record fitness value
 const std::vector<Batch>*,//batches
 uint32_t,//current batch idx
 double,//min val
 double,//max val
 double//learning rate
-> AlgoBase;
+>;
 
 ///used of index in tuple
 const uint32_t dataIdx=0,batchIdxIdx=1,minIdx=2,maxIdx=3,LrIdx=4;
@@ -38,7 +40,7 @@ typedef AlgoBase Algo_t;
 ///initialize function
 void initializer(CNN*,const Algo_t::ArgsType*);
 ///fitness function
-double crossEntropy(const CNN*,const Algo_t::ArgsType*);
+double fitness(const CNN*,const Algo_t::ArgsType*);
 ///crossover function
 void discreteSwap(const CNN * ,const CNN *,CNN*,CNN*,const Algo_t::ArgsType*);
 ///mutate function
@@ -48,6 +50,6 @@ void switchBatch(Algo_t::ArgsType*,
                  std::list<Algo_t::Gene>*,
                  size_t generation,
                  size_t failTimes,
-                 const AT::GAOption*);
+                 const OptimT::GAOption*);
 
 #endif // TRAINCNN_H

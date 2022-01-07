@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 INCLUDEPATH += D:/CppLibs/eigen-3.4.0 \
-                               D:/CppLibs/AlgoTemplates
+                               D:/CppLibs/OptimTemplates
 
 SOURCES += \
         Batch.cpp \
