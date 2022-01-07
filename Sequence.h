@@ -9,7 +9,7 @@ public:
     Sequence();
     std::vector<Input> val;
     bool isNormal;
-    bool load(const std::string &);
+    bool load(const std::string &,uint32_t ignored=0);
 
     void beginMinMax() const;//reset whole
     void updateMinMax() const;//update

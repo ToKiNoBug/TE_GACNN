@@ -15,6 +15,8 @@ extern const std::string abnormalDatas_T[];
 ///batches are based on data set (use pointers)
 void initializeDataSet(bool =true);
 
+void dispDataSourceSize(bool =true);
+
 ///make batches for trainning or testing
 void makeBatches(std::vector<Batch> * dest,
                  const uint32_t dataSetSize,

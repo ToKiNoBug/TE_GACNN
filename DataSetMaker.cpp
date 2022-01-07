@@ -39,6 +39,32 @@ std::vector<Sequence> normalDataSource,abnormalDataSource;
 ///for testing
 std::vector<Sequence> normalDataSource_T,abnormalDataSource_T;
 
+void dispDataSourceSize(bool isTrainning) {
+    if(isTrainning) {
+        std::cout<<"size of normalDataSource for trainning =[";
+        for(const auto & i : normalDataSource) {
+            std::cout<<i.val.size()<<',';
+        }
+        std::cout<<']'<<std::endl;
+        std::cout<<"size of abnormalDataSource for trainning =[";
+        for(const auto & i : abnormalDataSource) {
+            std::cout<<i.val.size()<<',';
+        }
+        std::cout<<']'<<std::endl;
+    } else {
+        std::cout<<"size of normalDataSource for testing =[";
+        for(const auto & i : normalDataSource_T) {
+            std::cout<<i.val.size()<<',';
+        }
+        std::cout<<']'<<std::endl;
+        std::cout<<"size of abnormalDataSource for testing =[";
+        for(const auto & i : abnormalDataSource_T) {
+            std::cout<<i.val.size()<<',';
+        }
+        std::cout<<']'<<std::endl;
+    }
+}
+
 void initializeDataSet(bool isTrainning) {
     if(isTrainning) {
         pri_makeAnyDataSet(&normalDataSource,&abnormalDataSource,
@@ -61,7 +87,7 @@ void pri_makeAnyDataSet(std::vector<Sequence>* n_dst,std::vector<Sequence>* a_ds
         n_dst->at(idx).isNormal=true;
     }
     for(int idx=0;idx<a_src_size;idx++) {
-        a_dst->at(idx).load(a_src[idx]);
+        a_dst->at(idx).load(a_src[idx],160);
         a_dst->at(idx).isNormal=false;
     }
     if(isTrainning) {
@@ -101,14 +127,6 @@ void makeBatches(std::vector<Batch> * dest,
     //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
     fullSamples.reserve(dataSetSize);
     //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
-    const uint32_t batchNum=dataSetSize/batchSize;
-    dest->resize(batchNum);
-    for(auto & i : *dest) {
-        i.clear();
-        //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
-        i.reserve(batchSize+1);
-        //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
-    }
 
     auto fillSamples=[](const std::vector<Sequence>* s,std::vector<Sample>* d) {
         for(const auto & seq : *s) {
@@ -126,6 +144,16 @@ void makeBatches(std::vector<Batch> * dest,
 
     std::random_shuffle(fullSamples.begin(),fullSamples.end());
     std::random_shuffle(fullSamples.begin(),fullSamples.end());
+
+
+    const uint32_t batchNum=fullSamples.size()/batchSize;
+    dest->resize(batchNum);
+    for(auto & i : *dest) {
+        i.clear();
+        //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
+        i.reserve(batchSize+1);
+        //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
+    }
 
     for(uint32_t sIdx=0;sIdx<fullSamples.size();sIdx++) {
         uint32_t batchIdx=sIdx%batchNum;

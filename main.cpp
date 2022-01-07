@@ -17,8 +17,13 @@ int main(int argc, char *argv[])
 
     initializeSrand();
 
+    //test_Sequence();
+    //exit(0);
+
     //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
     initializeDataSet();
+
+    dispDataSourceSize();
 
     //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
     std::vector<Batch> trainning;

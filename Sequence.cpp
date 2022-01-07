@@ -8,7 +8,7 @@ Sequence::Sequence()
 val.clear();
 }
 
-bool Sequence::load(const std::string & fileName) {
+bool Sequence::load(const std::string & fileName,uint32_t ignored) {
     std::fstream file;
     file.open(fileName,std::ios::in|std::ios::binary);
     if(file.eof()) {
@@ -17,19 +17,19 @@ bool Sequence::load(const std::string & fileName) {
     }
 
     file.seekg(0,std::ios::end);
-    const int fileSize=file.tellg();
-    file.seekg(0,std::ios::beg);
-    const int statueCount=std::floor(double(fileSize)/sizeof(RawData));
+    const int fileSizeFull=file.tellg();
+    file.seekg(ignored*sizeof(RawData),std::ios::beg);
+
+    const int statueCount=std::floor(double(fileSizeFull-file.tellg())/sizeof(RawData));
     val.clear();
+
 
     //std::cerr<<__FILE__<<" , "<<__LINE__<<std::endl;
     //std::cerr<<"statueCount = "<<statueCount<<std::endl;
     val.reserve(statueCount);
-    int loadedState=0;
-    while(loadedState<statueCount) {
+    while(val.size()<val.capacity()) {
         val.emplace_back(Input());
         file.read((char*)(val.back().data()+1),sizeof(RawData));
-        loadedState++;
     }
     return true;
 }
@@ -60,12 +60,14 @@ void Sequence::mapMinMax() {
 }
 
 void test_Sequence() {
-    std::string path="D:/Git/TE_GARNN/DataSet/Normal.data";
+    //std::string path="D:/Git/TE_GARNN/DataSet/Normal.data";
+    std::string path="D:/Git/TE_GARNN/DataSet/Error01.data";
     Sequence s;
     s.isNormal=true;
-    if(!s.load(path)) {
+    if(!s.load(path,160)) {
         return;
     }
+
     std::cout<<"s.front=\n"
             <<s.val.front().transpose()<<"\ns.back=\n"<<s.val.back().transpose()<<std::endl;
     std::cout<<"s.size="<<s.val.size()<<std::endl;

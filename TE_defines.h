@@ -33,8 +33,8 @@ typedef std::pair<const Input*,bool> Sample;
 const int ConvL1CoreL=3;
 //const int PoolL1Stride=2;
 const int ConvL2CoreL=3;
-const int PoolL3StrideR=5;
-const int PoolL3StrideC=2;
+const int PoolL3StrideR=1;
+const int PoolL3StrideC=3;
 
 constexpr const int PoolL3Out_rows=(InputCount-2)/PoolL3StrideR;
 constexpr const int PoolL3Out_cols=(SampleLength-4)/PoolL3StrideC;
